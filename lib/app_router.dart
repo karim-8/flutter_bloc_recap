@@ -35,14 +35,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_recap/data/models/character_model.dart';
 import 'package:flutter_bloc_recap/presentation/screens/character_details.dart';
 import 'package:flutter_bloc_recap/presentation/screens/characters_screen.dart';
-
 import 'business_logic/characters_cubit.dart';
 import 'constants/strings.dart';
 import 'data/repository/characters_repo.dart';
 import 'data/web_service/character_web_service.dart';
-import 'package:bloc/bloc.dart';
 
 class AppRouter {
   late CharactersCubit cubit;
@@ -55,12 +54,18 @@ class AppRouter {
 
   Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
+
       case RoutingStrings.charactersScreen:
         return MaterialPageRoute(builder: (_) =>
-            BlocProvider(create: (BuildContext context) => cubit));
+            BlocProvider(create: (BuildContext context) => cubit,
+            child: const CharactersScreen(),)
+        );
 
       case RoutingStrings.charactersDetailsScreen:
-        return MaterialPageRoute(builder: (_) => const CharacterDetails());
+        final character = settings.arguments as CharactersModel;
+        return MaterialPageRoute(builder: (_) =>
+         BlocProvider(create: (BuildContext context) => cubit,
+             child: CharacterDetailsScreen(character: character) ));
     }
     return null;
   }

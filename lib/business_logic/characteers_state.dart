@@ -38,39 +38,19 @@
 
 part of 'characters_cubit.dart';
 
-///Any class -->""needs to be A state"" have to inherit from
 @immutable
 abstract class CharactersState {}
 
-///1st State -- When data received
 class CharactersInitial extends CharactersState {}
 
-///2nd State -- When data Loaded
 class CharactersLoaded extends CharactersState {
-
   final List<CharactersModel> data;
   CharactersLoaded(this.data);
 }
 
-/// 3rd State -- When data Error
-class CharactersError extends CharactersState {
+class CharactersError extends CharactersState {}
 
+class QuotesLoadedState extends CharactersState {
+  final List<QuoteModel> quotesList;
+  QuotesLoadedState(this.quotesList);
 }
-
-// @immutable
-// abstract class CharactersState {}
-//
-// class CharactersInitial extends CharactersState {}
-//
-//
-// class CharactersLoaded extends CharactersState {
-//   final List<Character> characters;
-//
-//   CharactersLoaded(this.characters);
-// }
-//
-// class QuotesLoaded extends CharactersState {
-//   final List<Quote> quotes;
-//
-//   QuotesLoaded(this.quotes);
-// }

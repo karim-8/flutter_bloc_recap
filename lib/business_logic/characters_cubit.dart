@@ -37,6 +37,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
 import '../data/models/character_model.dart';
+import '../data/models/quote_model.dart';
 import '../data/repository/characters_repo.dart';
 
 part 'characteers_state.dart';
@@ -44,20 +45,19 @@ part 'characteers_state.dart';
 class CharactersCubit extends Cubit<CharactersState> {
 
   final CharactersRepo repo;
-  late List<CharactersModel> charactersDataList;
+  List<CharactersModel> charactersDataList = [];
   CharactersCubit(this.repo) : super(CharactersInitial());
 
-  List<CharactersModel> getAllData() {
+  void getAllData() {
     repo.getData().then((charactersList)  {
      emit(CharactersLoaded(charactersList));
      charactersDataList = charactersList;
     });
-    return charactersDataList;
+  }
+
+  void getQuotesList(String characterName) {
+    repo.getCharacterQuotes(characterName).then((value) => (){
+      emit(QuotesLoadedState(value));
+    });
   }
 }
-  // void getQuotes(String charName) {
-  //   charactersRepository.getCharacterQuotes(charName).then((quotes) {
-  //     emit(QuotesLoaded(quotes));
-  //   });
-  // }
-//}

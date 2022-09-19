@@ -29,48 +29,27 @@
  *
  *  --> Kaefer
 
- *   Created by KARIM on 16,September,2022",
- */
+ *   Created by KARIM on 18,September,2022",
+ *////
 
-///
-import 'package:dio/dio.dart';
-import 'package:flutter_bloc_recap/constants/strings.dart';
-import '../models/character_model.dart';
+class QuoteModel {
+  int? quoteId;
+  String? quote;
+  String? author;
 
-class CharactersWebServices {
-  late Dio dio;
-  CharactersWebServices() {
-    BaseOptions options = BaseOptions(
-      baseUrl: UrlStrings().baseUrl,
-      receiveDataWhenStatusError: true,
-      connectTimeout: 20 * 1000,
-      receiveTimeout: 20 * 1000,
-    );
-    dio = Dio(options);
+  QuoteModel({this.quoteId, this.quote, this.author});
+
+  QuoteModel.fromJson(Map<String, dynamic> json) {
+    quoteId = json['quote_id'];
+    quote = json['quote'];
+    author = json['author'];
   }
 
-  Future<List<dynamic>> getAllCharactersData() async {
-    try {
-      Response response = await dio.get('characters');
-      print("from webservice");
-      print(response.data.toString());
-      return response.data;
-    } catch (e) {
-      print(e.toString());
-      return [];
-    }
-  }
-
-  Future<List<dynamic>> getCharacterQuotes(String charName) async {
-    try {
-      Response response = await dio.get('quote' , queryParameters: {'author' : charName});
-      print("from webservice***********");
-
-      print(response.data.toString());
-      return response.data;
-    } catch (e) {
-      print(e.toString());
-      return [];
-    }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['quote_id'] = quoteId;
+    data['quote'] = quote;
+    data['author'] = author;
+    return data;
   }
 }

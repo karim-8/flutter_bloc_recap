@@ -41,3 +41,7 @@ class RoutingStrings {
 class UrlStrings {
   final baseUrl = 'https://breakingbadapi.com/api/';
 }
+
+class Constants {
+  static const characterAppBarTitile= "Characters Screen";
+}

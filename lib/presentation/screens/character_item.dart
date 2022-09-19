@@ -29,48 +29,59 @@
  *
  *  --> Kaefer
 
- *   Created by KARIM on 16,September,2022",
- */
+ *   Created by KARIM on 17,September,2022",
+ *////
 
-///
-import 'package:dio/dio.dart';
-import 'package:flutter_bloc_recap/constants/strings.dart';
-import '../models/character_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc_recap/constants/colors.dart';
+import 'package:flutter_bloc_recap/data/models/character_model.dart';
 
-class CharactersWebServices {
-  late Dio dio;
-  CharactersWebServices() {
-    BaseOptions options = BaseOptions(
-      baseUrl: UrlStrings().baseUrl,
-      receiveDataWhenStatusError: true,
-      connectTimeout: 20 * 1000,
-      receiveTimeout: 20 * 1000,
+import '../../constants/strings.dart';
+class CharacterItem extends StatelessWidget {
+  final CharactersModel model;
+  const CharacterItem({Key? key, required this.model}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
+      padding: const EdgeInsetsDirectional.all(4),
+      decoration: BoxDecoration(
+        color: MyColors.myWhite,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child:  InkWell(
+          onTap: () => Navigator.pushNamed(context, RoutingStrings.charactersDetailsScreen, arguments: model),
+          child: GridTile(
+        footer: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          color: Colors.black,
+          alignment: Alignment.bottomCenter,
+          child: Text( model.name != null ? model.name! : "",
+            style: const TextStyle(
+                height: 1.3,
+                fontSize: 16,
+                color: MyColors.myGrey,
+                fontWeight: FontWeight.bold
+            ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+            textAlign: TextAlign.center,
+          ),
+        ),
+        child: Container(
+          color: MyColors.myGrey,
+          child: (model.img != null) ?
+          FadeInImage.assetNetwork(
+              width: double.infinity,
+              height: double.infinity,
+              placeholder: 'assets/images/loading.gif',
+              image: model.img!, fit: BoxFit.cover,)
+              : Image.asset('assets/images/loading.gif')
+        ),
+      )),
     );
-    dio = Dio(options);
-  }
-
-  Future<List<dynamic>> getAllCharactersData() async {
-    try {
-      Response response = await dio.get('characters');
-      print("from webservice");
-      print(response.data.toString());
-      return response.data;
-    } catch (e) {
-      print(e.toString());
-      return [];
-    }
-  }
-
-  Future<List<dynamic>> getCharacterQuotes(String charName) async {
-    try {
-      Response response = await dio.get('quote' , queryParameters: {'author' : charName});
-      print("from webservice***********");
-
-      print(response.data.toString());
-      return response.data;
-    } catch (e) {
-      print(e.toString());
-      return [];
-    }
   }
 }

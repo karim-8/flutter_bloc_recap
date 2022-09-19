@@ -34,14 +34,21 @@
 
 
 import 'package:flutter_bloc_recap/data/models/character_model.dart';
+import 'package:flutter_bloc_recap/data/models/quote_model.dart';
 import 'package:flutter_bloc_recap/data/web_service/character_web_service.dart';
 
 class CharactersRepo {
-  final  CharactersWebServices services;
+  final CharactersWebServices services;
   CharactersRepo(this.services);
 
   Future<List<CharactersModel>> getData() async {
     final data = await services.getAllCharactersData();
-    return data.map((item) => CharactersModel.fromJson(item)).toList();
+    return data.map((items) => CharactersModel.fromJson(items)).toList();
   }
+
+  Future<List<QuoteModel>> getCharacterQuotes(String charName) async {
+    final quotes = await services.getCharacterQuotes(charName); /// here
+    return quotes.map((charQuotes) => QuoteModel.fromJson(charQuotes)).toList();
+  }
+
 }

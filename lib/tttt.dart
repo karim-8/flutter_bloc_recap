@@ -27,50 +27,7 @@
  *
  *   ",
  *
- *  --> Kaefer
+ *  --> bz_ausfluege
 
- *   Created by KARIM on 16,September,2022",
+ *   Created by KARIM on 19,September,2022",
  */
-
-///
-import 'package:dio/dio.dart';
-import 'package:flutter_bloc_recap/constants/strings.dart';
-import '../models/character_model.dart';
-
-class CharactersWebServices {
-  late Dio dio;
-  CharactersWebServices() {
-    BaseOptions options = BaseOptions(
-      baseUrl: UrlStrings().baseUrl,
-      receiveDataWhenStatusError: true,
-      connectTimeout: 20 * 1000,
-      receiveTimeout: 20 * 1000,
-    );
-    dio = Dio(options);
-  }
-
-  Future<List<dynamic>> getAllCharactersData() async {
-    try {
-      Response response = await dio.get('characters');
-      print("from webservice");
-      print(response.data.toString());
-      return response.data;
-    } catch (e) {
-      print(e.toString());
-      return [];
-    }
-  }
-
-  Future<List<dynamic>> getCharacterQuotes(String charName) async {
-    try {
-      Response response = await dio.get('quote' , queryParameters: {'author' : charName});
-      print("from webservice***********");
-
-      print(response.data.toString());
-      return response.data;
-    } catch (e) {
-      print(e.toString());
-      return [];
-    }
-  }
-}
